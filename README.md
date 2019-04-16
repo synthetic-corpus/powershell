@@ -10,5 +10,5 @@ you might name a cmdLET "set-nhuLaptopOU" instead of simply "set-LaptopOU"
 ## What does this module do?
 
 RENusers simplifies account creation for an hypothetical company that has three different locations with several unique departments within 
-each loaction. Rather than entering e-mail address, a standardized password, moving a userobject to the correct OU etc etc, this 
+each location. Rather than entering e-mail address, a standardized password, moving a userobject to the correct OU etc manually (and then error checking!), this 
 module simplifies the process into a single cmdLET.
