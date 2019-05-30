@@ -178,7 +178,7 @@ function set-RENuserLocation {
                 $thisAddress = $losangelesAddress
             }
             'chicago'{
-                $thisAddress = $dublinAddress
+                $thisAddress = $chicagoAddress
             }
             'seattle'{
                 $thisAddress = $seattleAddress
