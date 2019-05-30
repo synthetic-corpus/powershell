@@ -425,3 +425,29 @@ function new-RENuser {
 
     END {}
 }
+
+function new-RENaccounts {
+    <#
+        .SYNOPSIS
+        Creates new users from an Excel Sheet.
+        .DESCRIPTION
+        This accepts properly formatted excel sheet, put it through a loop and 
+        creates all the user accounts from it.
+        .Parameter path
+        A path to the correctly formatted .xls file
+    #>
+    [CMDletbinding()]
+    Param(
+        [Parameter(mandatory=$true,Position=0,ValueFromPipeline=$true)]
+        [string]$path)
+
+    BEGIN {
+        # Import the the Excel sheet as objects, and validated it.
+        # If the first object does not have the exactly correct headers it fails.
+    }
+
+    PROCESS {
+        # Run Through the Loop.
+        # Out put an error, on each object, if any of the fields are blank.
+    }
+}
