@@ -257,7 +257,7 @@ function set-RENuserOU {
             [switch]$chicago,
         <# Department Parameter. Will validate based on what is currently in the Particular city's OU. #>
             [Parameter(mandatory=$true)]
-            [ValidateScript(
+            [ValidateScript({
                 if($losangeles){
                     $validateME = get-RENOUchildren -ouPath 'OU=Los Angeles,OU=Staff,DC=Renraku,DC=com';
                 }
@@ -268,7 +268,7 @@ function set-RENuserOU {
                     $validateME = get-RENOUchildren -ouPath 'OU=Chicago,OU=Staff,DC=Renraku,DC=com';
                 }
                 write-output $validateMe.contains($_.toLower())
-            )]
+            })]
             [Alias('d')]
             [string]$department
     )
@@ -367,7 +367,7 @@ function new-RENuser {
             [switch]$chicago,
         <# Department Parameter. Will validate based on what is currently in the Particular city's OU. #>
             [Parameter(mandatory=$true)]
-            [ValidateScript(
+            [ValidateScript({
                 if($losangeles){
                     $validateME = get-RENOUchildren -ouPath 'OU=Los Angeles,OU=Staff,DC=Renraku,DC=com';
                 }
@@ -378,7 +378,7 @@ function new-RENuser {
                     $validateME = get-RENOUchildren -ouPath 'OU=Chicago,OU=Staff,DC=Renraku,DC=com';
                 }
                 write-output $validateMe.contains($_.toLower())
-            )]
+            })]
             [Alias('d')]
             [string]$department
         
