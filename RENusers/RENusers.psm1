@@ -87,9 +87,9 @@ function create-RENEmail {
         $base = -join($first,".",$last)
         Write-Verbose "Set up name to $base"
         Write-Verbose "Combinging into final string"
-        $email = -join($base,"`@`renraku.com")
+        $email = -join($base,"@","renraku.com")
         Write-Verbose "Final e-mail is $email"
-        Write-Output $email
+        Write-Output $email.normalize()
     }
 
     END {}
@@ -391,7 +391,6 @@ function new-RENuser {
             for AD records only.
         #>
         $password = create-RENDefaultPassword -first $name -last $surname
-        $email = create-RENDefaultPassword -first $name -last $surname 
         $adname = -join($name,'.',$surname)
         $initials = -join($name.substring(0,1),$surname.substring(0,1))
     }
@@ -402,7 +401,7 @@ function new-RENuser {
             <# Uses both CMDlets from the ActiveDirectory module and custom CMDLETs of this Module. #>
             $newUser = new-adUser -AccountPassword $password -name $adname -givenname $name -surname $surname -enabled 1 `
                        -initials $initials `
-                       -EmailAddress $email -samaccountname $adname -changepasswordatlogon 1 -PassThru
+                       -EmailAddress (create-RENEmail -first $name -last $surname) -samaccountname $adname -changepasswordatlogon 1 -PassThru
             set-RENuserlocation $newUser -location 'los angeles'
             set-RENuserOU -identity $newUser -losangeles -department $department
         }
@@ -410,7 +409,7 @@ function new-RENuser {
             <# Uses both CMDlets from the ActiveDirectory module and custom CMDLETs of this Module. #>
             $newUser = new-adUser -AccountPassword $password -name $adname -givenname $name -surname $surname -enabled 1 `
                        -initials $initials `
-                       -EmailAddress $email -samaccountname $adname -changepasswordatlogon 1 -PassThru
+                       -EmailAddress (create-RENEmail -first $name -last $surname) -samaccountname $adname -changepasswordatlogon 1 -PassThru
             set-RENuserlocation $newUser -location 'seattle'
             set-RENuserOU -identity $newUser -seattle -department $department
         }
@@ -418,7 +417,7 @@ function new-RENuser {
             <# Uses both CMDlets from the ActiveDirectory module and custom CMDLETs of this Module. #>
             $newUser = new-adUser -AccountPassword $password -name $adname -givenname $name -surname $surname -enabled 1 `
                        -initials $initials `
-                       -EmailAddress $email -samaccountname $adname -changepasswordatlogon 1 -PassThru
+                       -EmailAddress (create-RENEmail -first $name -last $surname) -samaccountname $adname -changepasswordatlogon 1 -PassThru
             set-RENuserlocation $newUser -location 'chicago'
             set-RENuserOU -identity $newUser -chicago -department $department
         }
