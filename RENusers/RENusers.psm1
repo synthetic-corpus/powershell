@@ -461,6 +461,28 @@ function new-RENaccounts {
         # Out put an error, on each object, if any of the fields are blank.
         foreach($row in $table){
             write-verbose -message (-join("Found that ",$row.name," ",$row.surname," is in the city of ",$row.city," and works as a ",$row.title))
+            <#
+                Used "trim() at the end of each string to avoid throwing and error at any trailing or leading spaces from an excel sheet."
+            #>
+            try{
+                if($row.city.trim().toLower() -eq "los angeles"){
+                    new-RENuser -name $row.name.trim() -surname $row.surname.trim() -title $row.title.trim() -losangeles -department $row.department.trim() `
+                    -erroraction stop
+                }
+                elseif($row.city.trim().toLower() -eq "seattle"){
+                    new-RENuser -name $row.name.trim() -surname $row.surname.trim() -title $row.title.trim() -seattle -department $row.department.trim() `
+                    -erroraction stop
+                }
+                elseif($row.city.trim().toLower() -eq "chicago"){
+                    new-RENuser -name $row.name.trim() -surname $row.surname.trim() -title $row.title.trim() -chicago-department $row.department.trim() `
+                    -erroraction stop
+                }
+                else{
+                    Throw -message (-join("Bad data in city field. Data entered was ",$row.city))
+                }
+            }catch{
+                write-warning -message (-join "Error for user ",$row.name," ",$row.surname)
+            }
         }
         
     }
