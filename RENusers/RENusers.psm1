@@ -450,6 +450,7 @@ function new-RENaccounts {
     Param(
         [Parameter(mandatory=$true,Position=0)]
         [string]$path
+    )
 
     BEGIN {
         $table = import-excel -path $path
@@ -458,8 +459,8 @@ function new-RENaccounts {
     PROCESS {
         # Run Through the Loop.
         # Out put an error, on each object, if any of the fields are blank.
-        foreach $row in $table{
-            write-verbose "Found that ",$row.name," is in the city of ",$row.city," and works as ",$row.title
+        foreach($row in $table){
+            write-verbose -message (-join("Found that ",$row.name," ",$row.surname," is in the city of ",$row.city," and works as a ",$row.title))
         }
         
     }
