@@ -300,7 +300,7 @@ function set-RENuserOU {
                 
                 if($passthru){
                     $outThis = get-Aduser -identity $user
-                    $outThis
+                    Write-output $outThis
                 }
             }catch{
                 Write-warning "Error with $user! Object not moved!"
@@ -400,27 +400,27 @@ function new-RENuser {
         <# Once more locations are added, a switch for each location will be added here too #>
         if($losangeles){
             <# Uses both CMDlets from the ActiveDirectory module and custom CMDLETs of this Module. #>
-            new-adUser -AccountPassword $password -name $adname -givenname $name -surname $surname -enabled 1 `
+            $newUser = new-adUser -AccountPassword $password -name $adname -givenname $name -surname $surname -enabled 1 `
                        -initials $initials `
-                       -EmailAddress $email -samaccountname $adname -changepasswordatlogon 1 -PassThru| `
-            set-RENuserOU -losangeles -department $department -passthru | `
-            set-RENuserlocation -location 'los angeles'
+                       -EmailAddress $email -samaccountname $adname -changepasswordatlogon 1 -PassThru
+            set-RENuserlocation $newUser -location 'los angeles'
+            set-RENuserOU -identity $newUser -losangeles -department $department
         }
         elseif($seattle){
             <# Uses both CMDlets from the ActiveDirectory module and custom CMDLETs of this Module. #>
-            new-adUser -AccountPassword $password -name $adname -givenname $name -surname $surname -enabled 1 `
+            $newUser = new-adUser -AccountPassword $password -name $adname -givenname $name -surname $surname -enabled 1 `
                        -initials $initials `
-                       -EmailAddress $email -samaccountname $adname -changepasswordatlogon 1 -PassThru| `
-            set-RENuserOU -seattle -department $department -passthru | `
-            set-RENuserlocation -location 'los angeles'
+                       -EmailAddress $email -samaccountname $adname -changepasswordatlogon 1 -PassThru
+            set-RENuserlocation $newUser -location 'seattle'
+            set-RENuserOU -identity $newUser -losangeles -department $department
         }
         elseif($chicago){
             <# Uses both CMDlets from the ActiveDirectory module and custom CMDLETs of this Module. #>
-            new-adUser -AccountPassword $password -name $adname -givenname $name -surname $surname -enabled 1 `
-                       -initials  $initials `
-                       -EmailAddress $email -samaccountname $adname -changepasswordatlogon 1 -PassThru| `
-            set-RENuserOU -chicago -department $department -passthru | `
-            set-RENuserlocation -location 'los angeles'
+            $newUser = new-adUser -AccountPassword $password -name $adname -givenname $name -surname $surname -enabled 1 `
+                       -initials $initials `
+                       -EmailAddress $email -samaccountname $adname -changepasswordatlogon 1 -PassThru
+            set-RENuserlocation $newUser -location 'chicago'
+            set-RENuserOU -identity $newUser -losangeles -department $department
         }
     }
 
