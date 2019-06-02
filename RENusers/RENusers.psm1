@@ -412,7 +412,7 @@ function new-RENuser {
                        -initials $initials `
                        -EmailAddress $email -samaccountname $adname -changepasswordatlogon 1 -PassThru
             set-RENuserlocation $newUser -location 'seattle'
-            set-RENuserOU -identity $newUser -losangeles -department $department
+            set-RENuserOU -identity $newUser -seattle -department $department
         }
         elseif($chicago){
             <# Uses both CMDlets from the ActiveDirectory module and custom CMDLETs of this Module. #>
@@ -420,7 +420,7 @@ function new-RENuser {
                        -initials $initials `
                        -EmailAddress $email -samaccountname $adname -changepasswordatlogon 1 -PassThru
             set-RENuserlocation $newUser -location 'chicago'
-            set-RENuserOU -identity $newUser -losangeles -department $department
+            set-RENuserOU -identity $newUser -chicago -department $department
         }
     }
 
