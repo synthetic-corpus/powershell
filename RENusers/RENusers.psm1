@@ -454,7 +454,7 @@ function new-RENaccounts {
         [switch]$log,
         [parameter(ParameterSetName="Logging")]
         [Alias('lp','logging','logfile')]
-        [string]$logpath
+        [string]$logpath="~/Desktop/"
     )
 
     BEGIN {
@@ -473,7 +473,6 @@ function new-RENaccounts {
             <#
                 Used "trim() at the end of each string to avoid throwing and error at any trailing or leading spaces from an excel sheet."
             #>
-            write-host $row
             try{
                 if($row.city.trim().toLower() -eq "los angeles"){
                     new-RENuser -name $row.name.trim() -surname $row.surname.trim() -title $row.title.trim() -losangeles -department $row.department.trim() `
@@ -484,16 +483,16 @@ function new-RENaccounts {
                     -erroraction stop
                 }
                 elseif($row.city.trim().toLower() -eq "chicago"){
-                    new-RENuser -name $row.name.trim() -surname $row.surname.trim() -title $row.title.trim() -chicago-department $row.department.trim() `
+                    new-RENuser -name $row.name.trim() -surname $row.surname.trim() -title $row.title.trim() -chicago -department $row.department.trim() `
                     -erroraction stop
                 }
                 else{
                     Throw -message (-join("Bad data in city field. Data entered was ",$row.city))
                 }
-                if($log){$logfile += (-join("*** Success *** ",$row.name.tostring()," ",$row.surname)}
+                if($log){$logfile += (-join("*** Success *** ",$row.name," ",$row.surname))}
             }catch{
-                write-warning -message (-join("Error for user ",$row.name.tostring()," ",$row.surname))
-                # if($log){$logfile += -join("*** Failed  *** ",$row.name.tostring()," ",$row.surname.tostring())}
+                write-warning -message (-join("Error for user ",$row.name," ",$row.surname))
+                if($log){$logfile += (-join("*** Failed  *** ",$row.name," ",$row.surname))}
             }
         } # End ForEach
     }
@@ -501,7 +500,7 @@ function new-RENaccounts {
     END {
         if($log){
             $now = get-date -format "filedate"
-            $logfile | out-file -filepath (-join($filepath,$now.tostring()," - thisLog.txt"))
+            $logfile | out-file -filepath (-join($logpath,$now.tostring()," - thisLog.txt"))
         }
     }
 }
