@@ -449,11 +449,19 @@ function new-RENaccounts {
     [CMDletbinding()]
     Param(
         [Parameter(mandatory=$true,Position=0)]
-        [string]$path
+        [string]$path,
+        [Parameter(ParameterSetName="Logging")]
+        [switch]$log,
+        [parameter(ParameterSetName="Logging")]
+        [Alias('lp','logging','logfile')]
+        [string]$logpath
     )
 
     BEGIN {
         $table = import-excel -path $path
+        if($log){
+            $logfile = @()
+        }
     }
 
     PROCESS {
@@ -462,8 +470,10 @@ function new-RENaccounts {
         foreach($row in $table){
             write-verbose -message (-join("Found that ",$row.name," ",$row.surname," is in the city of ",$row.city," and works as a ",$row.title))
             <#
+            <#
                 Used "trim() at the end of each string to avoid throwing and error at any trailing or leading spaces from an excel sheet."
             #>
+            write-host $row
             try{
                 if($row.city.trim().toLower() -eq "los angeles"){
                     new-RENuser -name $row.name.trim() -surname $row.surname.trim() -title $row.title.trim() -losangeles -department $row.department.trim() `
@@ -480,10 +490,18 @@ function new-RENaccounts {
                 else{
                     Throw -message (-join("Bad data in city field. Data entered was ",$row.city))
                 }
+                if($log){$logfile += (-join("*** Success *** ",$row.name.tostring()," ",$row.surname)}
             }catch{
-                write-warning -message (-join "Error for user ",$row.name," ",$row.surname)
+                write-warning -message (-join("Error for user ",$row.name.tostring()," ",$row.surname))
+                # if($log){$logfile += -join("*** Failed  *** ",$row.name.tostring()," ",$row.surname.tostring())}
             }
+        } # End ForEach
+    }
+
+    END {
+        if($log){
+            $now = get-date -format "filedate"
+            $logfile | out-file -filepath (-join($filepath,$now.tostring()," - thisLog.txt"))
         }
-        
     }
 }
