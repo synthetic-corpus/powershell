@@ -443,8 +443,28 @@ function new-RENaccounts {
         Department must match the name of the correct OU relative to city *exactly* 
         or it will fail input validation.
 
-        .Parameter path
+        For each row in the excel table, the code will do the following:
+            1. Create a new Ad user, naming convention is hard coded into this module.
+            2. Create a default password for the user based on hard-coded function.
+            3. Create an e-mail for the users, for purposes of AD records. This will *not* actually create an e-mail in exchange server, gmail, 
+                outlook 365.
+            4. Set the user's password to require change on first login
+            5. Move the user object to an OU based on which city and department is selected.
+            6. Add the user's address to the Aduser object based on the city selected.
+
+
+        .PARAMETER path
         A path to the correctly formatted .xls file
+
+        .PARAMETER log
+        Switch Parameter. Turn this on to enable log file.
+
+        .PARAMETER logpath
+        The log path for where the log file is to be saved. Default is the desktop of whatever active user.
+
+        .EXAMPLE
+        new-RENaccounts -path ./example/testusers.xls -log
+        This will loop through the contents of testusers, create the users, and output a log file to the user's desktop.
     #>
     [CMDletbinding()]
     Param(
