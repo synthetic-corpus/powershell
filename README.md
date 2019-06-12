@@ -27,8 +27,4 @@ module simplifies the process into a single cmdLET.
 
 # Adapting for Use in professional environments.
 
-First, The code assumes a certain structure in AD. In the test environment it looks like the image below.
-
-Secondly, anything related to cities or physical worksites (e.g. certain switch parameters and mailing address variables) are also hardcoded. For instance, this code only has three different cities to choose from, and they all match with fake addresses. All of this would need to be changed before it could be deployed live.
-
-Anything related to department can be handled dynamically and will not require changes in code, provided that the OU structure follows the same pattern in the example above.
+See Wiki of this Project for details
