@@ -13,7 +13,7 @@ RENusers simplifies account creation for an hypothetical company that has three 
 each location. Rather than entering e-mail address, a standardized password, moving a userobject to the correct OU etc manually (and then error checking!), this 
 module simplifies the process into a single cmdLET.
 
-### Exmaple:
+### Example:
 
   new-RENaccounts -path c:/users/admin/desktop/newUsers.xls -log
   
